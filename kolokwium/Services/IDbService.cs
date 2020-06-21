@@ -10,6 +10,7 @@ namespace kolokwium.Services
     public interface IDbService
     {
         GetMusicianResponse GetMusician(int id);
+        public void AddMusician(MusicianRequest request);
 
 
     }

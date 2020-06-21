@@ -3,15 +3,17 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using kolokwium.Models;
 
 namespace kolokwium.Migrations
 {
     [DbContext(typeof(APIDbContext))]
-    partial class APIDbContextModelSnapshot : ModelSnapshot
+    [Migration("20200621122228_Migration2")]
+    partial class Migration2
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -85,15 +87,6 @@ namespace kolokwium.Migrations
                     b.HasKey("IdMusician");
 
                     b.ToTable("Musician");
-
-                    b.HasData(
-                        new
-                        {
-                            IdMusician = 1,
-                            FirstName = "Andrzej",
-                            LastName = "Kowalski",
-                            NickName = "AK"
-                        });
                 });
 
             modelBuilder.Entity("Kolokwium.Models.MusicianTrack", b =>

@@ -18,12 +18,14 @@ namespace kolokwium.Services
             _context = context;
         }
 
-		public GetMusicianResponse GetMusician(int id)
+
+
+        public GetMusicianResponse GetMusician(int id)
 		{
      
             GetMusicianResponse response = new GetMusicianResponse();
 
-			var musician = _context.Musician.SingleOrDefault((System.Linq.Expressions.Expression<Func<Musician, bool>>)(m => m.IdMusician == id));
+			var musician = _context.Musician.SingleOrDefault(m => m.IdMusician == id);
 
 			if (musician == null)
 			{
@@ -35,7 +37,7 @@ namespace kolokwium.Services
 			response.LastName = musician.LastName;
 
 			var musicianTracks = _context.MusicianTrack
-								.Where((System.Linq.Expressions.Expression<Func<MusicianTrack, bool>>)(mt => mt.IdMusician == id))
+								.Where(mt => mt.IdMusician == id)
 								.Include(t => t.Track)
 								.ToList();
 
@@ -66,7 +68,52 @@ namespace kolokwium.Services
 
 		}
 
+        public void AddMusician(MusicianRequest request)
+        {
+
+            var track = _context.Track.SingleOrDefault(t => t.TrackName == request.Track.TrackName);
 
 
-	}
+            if (track == null)
+            {
+                track = new Track()
+                {
+                    TrackName = request.Track.TrackName,
+                    Duration = request.Track.Duration
+                };
+            }
+
+            var musician = new Musician()
+            {
+                FirstName = request.FirstName,
+                LastName = request.LastName,
+                NickName = request.NickName
+            };
+
+            var musicianTrack = new MusicianTrack()
+            {
+                Track = track,
+                Musician = musician
+            };
+
+
+
+            //_context.MusicianTrack.Attach(musicianTrack);
+            //_context.Musician.Attach(musician);
+            //_context.Track.Attach(track);
+
+            _context.MusicianTrack.AddRange(musicianTrack);
+            _context.Musician.Add(musician);
+            _context.Track.Add(track);
+
+
+            _context.SaveChanges();
+
+
+
+
+        }
+
+
+    }
 }

@@ -1,12 +1,6 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 using kolokwium.DTOs;
-using kolokwium.Models;
 using kolokwium.Services;
-using Kolokwium.Models;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
 namespace kolokwium.Controllers
@@ -46,13 +40,24 @@ namespace kolokwium.Controllers
         }
 
         [HttpPost]
-        public IActionResult AddMusician(Musician doc)
+        public IActionResult AddMusician(MusicianRequest request)
         {
-            //_dbservice.AddMusician(doc);
-            return Ok("Dodano doktora");
+            try
+            {
+                _dbservice.AddMusician(request);
+
+            }
+            catch (ArgumentException ex)
+            {
+                return BadRequest(ex.Message);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+            return Ok("Dodano muzyka");
+
         }
-
-
 
     }
 }

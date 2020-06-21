@@ -27,12 +27,15 @@ namespace kolokwium.Models
         {
             base.OnModelCreating(modelBuilder);
 
-            //modelBuilder.Entity<MusicianTrack>((builder) =>
-            //{
+            modelBuilder.Entity<Musician>((builder) =>
+            {
+                builder.HasData(
+                    new Musician { IdMusician = 1, FirstName = "Andrzej", LastName = "Kowalski", NickName = "AK" }
+                    );
+            });
 
-            //});
+    
 
-
-        }
+    }
     }
 }
